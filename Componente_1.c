@@ -1,3 +1,13 @@
+/* ======================================================================
+   COMPONENTE 1 - Aproximacao e Autorizacao de Pouso
+   ----------------------------------------------------------------------
+   Estrutura escolhida: lista encadeada simples, MANTIDA SEMPRE ORDENADA
+   por prioridade (Emergencia=1, Comercial=2, Carga=3) no momento da
+   insercao. Assim, autorizar o pouso e sempre remover o INICIO da lista
+   (operacao O(1)), o que satisfaz a regra "nivel inferior sempre pousa
+   antes de nivel superior".
+   ====================================================================== */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,6 +82,8 @@ int main()
     system(CLEAR_COMMAND);
 
     SistemaPouso();
+
+    return 0;
 }
 
 enum prioridade
@@ -87,14 +99,14 @@ typedef struct Aviao
     enum prioridade prioridade;
     int id_aviao;
     struct Aviao* prox;
-}Aviao ;
+} Aviao;
 
 typedef struct Avioes
 {
     Aviao* inicio;
     Aviao* fim;
     int tam;
-}Avioes;
+} Avioes;
 
 void CriarAvioes(Avioes* avioes)
 {
@@ -103,11 +115,11 @@ void CriarAvioes(Avioes* avioes)
     avioes->tam = 0;
 }
 
+/* Insere mantendo a lista ordenada por prioridade crescente (1 = mais urgente) */
 void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
 {
     Aviao* novo = malloc(sizeof(Aviao));
     Aviao* atual = NULL;
-    Aviao* anterior = NULL;
 
     if (!novo)
         return;
@@ -117,7 +129,7 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
     novo->id_aviao = id;
     novo->prox = NULL;
 
-    // Fila vazia -> novo é inicio e fim
+    /* Fila vazia -> novo eh inicio e fim */
     if (avioes->inicio == NULL)
     {
         avioes->inicio = novo;
@@ -126,7 +138,7 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
         return;
     }
 
-    // Prioridade maior que a do primeiro -> entra na frente de tudo
+    /* Prioridade maior que a do primeiro -> entra na frente de tudo */
     if (prioridade < avioes->inicio->prioridade)
     {
         novo->prox = avioes->inicio;
@@ -135,7 +147,7 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
         return;
     }
 
-    // Procura o ponto onde a prioridade do novo já não é mais menor
+    /* Procura o ponto onde a prioridade do novo ja nao eh mais menor */
     atual = avioes->inicio;
     while (atual->prox != NULL && atual->prox->prioridade <= prioridade)
     {
@@ -145,13 +157,14 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
     novo->prox = atual->prox;
     atual->prox = novo;
 
-    // Se inseriu depois do último nó, atualiza o fim
+    /* Se inseriu depois do ultimo no, atualiza o fim */
     if (novo->prox == NULL)
         avioes->fim = novo;
 
     avioes->tam++;
 }
-/* Remove sempre o inicio, que é o de maior prioridade */
+
+/* Remove sempre o inicio, que eh o de maior prioridade */
 Aviao* PermitirPousoPrioritario(Avioes* avioes)
 {
     Aviao* remover = NULL;
@@ -173,13 +186,13 @@ void ListarAvioes(Avioes avioes)
 {
     Aviao* aviao = avioes.inicio;
 
-    printf("\n\t\tQuantidade de avioes: %d:\n", avioes.tam);
+    printf("\n\t\tQuantidade de avioes: %d\n", avioes.tam);
 
     while (aviao)
     {
-        printf("Nome: %s\n" "ID: %d\n" "Prioridade: %d\n\n",               
+        printf("Nome: %s\n" "ID: %d\n" "Prioridade: %d\n\n",
                aviao->nome, aviao->id_aviao, aviao->prioridade);
-        
+
         aviao = aviao->prox;
     }
 }
@@ -206,7 +219,7 @@ void SistemaPouso()
     system(CLEAR_COMMAND);
 
     int opcao = 0, id = 0, prioridade = 0;
-    char nome[19];
+    char nome[20];
 
     Aviao* remover = NULL;
 
@@ -217,10 +230,10 @@ void SistemaPouso()
     do
     {
         opcao = LerNumero(
-            "\n\t 0 - Sair\n\t"
-            "1 - Entrada de avião\n\t"
+            "\n\t0 - Sair\n\t"
+            "1 - Entrada de aviao\n\t"
             "2 - Liberar pouso prioritario\n\t"
-            "3 - Listas solicitaçoes de pouso\n\t"
+            "3 - Listar solicitacoes de pouso\n\t"
             "Selecione: ", 0, 3);
 
         switch (opcao)
@@ -235,11 +248,14 @@ void SistemaPouso()
             prioridade = LerNumero("Digite a prioridade (1 a 3, sendo 1 mais urgente): ", 1, 3);
 
             SolicitacaoPouso(&avioes, nome, prioridade, id);
+
+            system(CLEAR_COMMAND);
             break;
         case 2:
             system(CLEAR_COMMAND);
 
             remover = PermitirPousoPrioritario(&avioes);
+
             if (remover)
             {
                 printf("Aviao - Nome: %s | ID: %d | Prioridade: %d | O pouso foi autorizado!\n",
@@ -250,10 +266,14 @@ void SistemaPouso()
             {
                 printf("Nenhum aviao no aeroporto!\n");
             }
+
+            system(CLEAR_COMMAND);
             break;
         case 3:
             system(CLEAR_COMMAND);
+
             ListarAvioes(avioes);
+
             break;
         default:
             if (opcao != 0)
@@ -263,5 +283,5 @@ void SistemaPouso()
         }
     } while (opcao != 0);
 
-    return;
+    DestruirFila(&avioes);
 }
