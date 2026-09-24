@@ -1,12 +1,19 @@
-/* ======================================================================
-   COMPONENTE 1 - Aproximacao e Autorizacao de Pouso
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    COMPONENTE 1 - Aproximacao e Autorizacao de Pouso
    ----------------------------------------------------------------------
    Estrutura escolhida: lista encadeada simples, MANTIDA SEMPRE ORDENADA
    por prioridade (Emergencia=1, Comercial=2, Carga=3) no momento da
-   insercao. Assim, autorizar o pouso e sempre remover o INICIO da lista
+   insercao. Assim, autorizar o pouso sempre remove o INICIO da lista
    (operacao O(1)), o que satisfaz a regra "nivel inferior sempre pousa
    antes de nivel superior".
-   ====================================================================== */
+
+   Sugestoes da aula: Operador modificar a prioridade dos avioes ou colocar
+   evento aleatorio para isso.
+
+   Para isso será necessário remover o aviao da lista e criar o novo com
+   as mesmas modificações ou sera que é possivel move-lo pela lista?
+   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+   
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -129,7 +136,7 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
     novo->id_aviao = id;
     novo->prox = NULL;
 
-    /* Fila vazia -> novo eh inicio e fim */
+    /* Fila vazia -> novo é inicio e fim */
     if (avioes->inicio == NULL)
     {
         avioes->inicio = novo;
@@ -147,7 +154,7 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
         return;
     }
 
-    /* Procura o ponto onde a prioridade do novo ja nao eh mais menor */
+    /* Procura o ponto onde a prioridade do novo ja nao é mais menor */
     atual = avioes->inicio;
     while (atual->prox != NULL && atual->prox->prioridade <= prioridade)
     {
@@ -164,7 +171,7 @@ void SolicitacaoPouso(Avioes* avioes, char nome[20], int prioridade, int id)
     avioes->tam++;
 }
 
-/* Remove sempre o inicio, que eh o de maior prioridade */
+/* Remove sempre o inicio, que é o de maior prioridade */
 Aviao* PermitirPousoPrioritario(Avioes* avioes)
 {
     Aviao* remover = NULL;

@@ -1,4 +1,4 @@
-/* ======================================================================
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
    COMPONENTE 2 - Circulacao e Gerenciamento de Solo (Taxiways)
    ----------------------------------------------------------------------
    Estrutura escolhida: LISTA CIRCULAR DUPLAMENTE ENCADEADA.
@@ -12,7 +12,7 @@
    entrar/sair do circuito NUNCA realoca ou quebra a lista, apenas marca
    o campo "ocupante" do no como livre/ocupado, entao a circulacao dos
    demais avioes nunca e interrompida.
-   ====================================================================== */
+   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
 #include <stdio.h>
 #include <stdlib.h>
