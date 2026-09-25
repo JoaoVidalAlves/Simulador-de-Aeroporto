@@ -168,8 +168,10 @@ AviaoFila* PermitirPousoPrioritario(FilaPouso* fila)
     {
         remover = fila->inicio;
         fila->inicio = remover->prox;
+       
         if (fila->inicio == NULL)
             fila->fim = NULL;
+       
         fila->tam--;
     }
     return remover;
@@ -178,7 +180,9 @@ AviaoFila* PermitirPousoPrioritario(FilaPouso* fila)
 void ListarFila(FilaPouso fila)
 {
     AviaoFila* aviao = fila.inicio;
+   
     printf("\n\t\tAvioes aguardando pouso: %d\n", fila.tam);
+   
     while (aviao)
     {
         printf("Nome: %s | ID: %d | Prioridade: %d\n", aviao->nome, aviao->id_aviao, aviao->prioridade);
@@ -190,7 +194,14 @@ void DestruirFila(FilaPouso* fila)
 {
     AviaoFila* atual = fila->inicio;
     AviaoFila* prox;
-    while (atual) { prox = atual->prox; free(atual); atual = prox; }
+   
+    while (atual) 
+    { 
+       prox = atual->prox;
+       free(atual);
+       atual = prox; 
+    }
+   
     fila->inicio = NULL;
     fila->fim = NULL;
     fila->tam = 0;
@@ -243,8 +254,13 @@ void CriarCircuito(Circuito* circuito, int quantidade_nos)
         novo->prox = NULL;
         novo->ant = NULL;
 
-        if (primeiro == NULL) primeiro = novo;
-        else { anterior->prox = novo; novo->ant = anterior; }
+        if (primeiro == NULL) 
+           primeiro = novo;
+        else
+        { 
+           anterior->prox = novo;
+           novo->ant = anterior;
+        }
         anterior = novo;
     }
 
