@@ -274,13 +274,11 @@ void SistemaPouso()
                 printf("Nenhum aviao no aeroporto!\n");
             }
 
-            system(CLEAR_COMMAND);
             break;
         case 3:
             system(CLEAR_COMMAND);
 
             ListarAvioes(avioes);
-
             break;
         default:
             if (opcao != 0)
