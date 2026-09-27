@@ -416,7 +416,12 @@ void DestruirCircuito(Circuito* circuito)
         RemoverDaListaSolo(circuito, circuito->avioes_em_solo);
 
     if (atual == NULL) return;
-    do { proximo = atual->prox; free(atual); atual = proximo; } while (atual != inicio);
+    do 
+    { 
+        proximo = atual->prox;
+        free(atual);
+        atual = proximo; 
+    } while (atual != inicio);
 }
 
 /* ======================================================================
@@ -505,21 +510,26 @@ void SistemaIntegrado()
         switch (opcao)
         {
         case 1:
+            system(CLEAR_COMMAND);
             LerTexto("Nome da aeronave: ", nome, 19);
             id = LerNumero("ID da aeronave: ", 1, 1000);
             prioridade = LerNumero("Prioridade (1 Emergencia, 2 Comercial, 3 Carga): ", 1, 3);
             SolicitacaoPouso(&fila, nome, prioridade, id);
             break;
         case 2:
+            system(CLEAR_COMMAND);
             AutorizarPousoComTaxiway(&fila, &circuito);
             break;
         case 3:
+            system(CLEAR_COMMAND);
             MoverAvioes(&circuito);
             break;
         case 4:
+            system(CLEAR_COMMAND);
             ListarFila(fila);
             break;
         case 5:
+            system(CLEAR_COMMAND);
             ListarCircuito(&circuito);
             break;
         default:
