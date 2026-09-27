@@ -395,6 +395,8 @@ void SistemaBagagens()
         switch (opcao)
         {
         case 1:
+            system(CLEAR_COMMAND);
+
             id = LerNumero("ID do item: ", 1, 100000);
             LerTexto("Nome do dono: ", dono, 29);
             peso = LerFloat("Peso (kg): ", 0.1f, 1000.0f);
@@ -402,6 +404,7 @@ void SistemaBagagens()
             break;
         case 2:
         {
+            system(CLEAR_COMMAND);
             ItemManifesto* r;
             id = LerNumero("ID do item: ", 1, 100000);
             r = ConsultarItem(&sistema, id);
@@ -412,6 +415,7 @@ void SistemaBagagens()
             break;
         }
         case 3:
+            system(CLEAR_COMMAND);
             id = LerNumero("ID do item a remover: ", 1, 100000);
             if (RemoverAdministrativo(&sistema, id))
                 printf("Item removido do manifesto.\n");
@@ -419,20 +423,25 @@ void SistemaBagagens()
                 printf("Item nao encontrado (ou nao pode ser removido).\n");
             break;
         case 4:
+            system(CLEAR_COMMAND);
             EmbarcarItens(&sistema);
             break;
         case 5:
+            system(CLEAR_COMMAND);
             if (DescarregarProximo(&sistema) == -1)
                 printf("Porao vazio!\n");
             break;
         case 6:
+            system(CLEAR_COMMAND);
             id = LerNumero("ID da bagagem a isolar: ", 1, 100000);
             InspecaoEmergencia(&sistema, id);
             break;
         case 7:
+            system(CLEAR_COMMAND);
             ListarManifesto(&sistema);
             break;
         case 8:
+            system(CLEAR_COMMAND);
             ListarPorao(&sistema);
             break;
         default:
